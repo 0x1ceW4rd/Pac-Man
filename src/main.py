@@ -1,3 +1,9 @@
 import display
 
-display.test()
+
+def main():
+    display.test()
+
+
+
+main()
