@@ -2,3 +2,8 @@ mazegenerator/
 .venv/
 osrc/
 .vscode/
+paku-paku-split.zip
+.mypy_cache
+*/.mypy_cache
+__pycache__
+*/__pycache__
