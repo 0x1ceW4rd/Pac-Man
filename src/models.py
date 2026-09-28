@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
             center=(window_width / 2, window_height / 2)
         )
         self.direction: Direction = Direction.NONE
-        self.speed: float = 200.0
+        self.speed: float = 150.0
 
     def load_frames(self):
         self.frames = {"ded": [], "down": [], "left": [], "right": [], "up": []}
@@ -59,13 +59,6 @@ class Player(pygame.sprite.Sprite):
         if dy != 0:
             self.state = "down" if dy > 0 else "up"
 
-        if self.state == "ded":
-            self.frame_index = self.frame_index + 5 * dt
-            self.image = self.frames[self.state][
-                int(self.frame_index) % len(self.frames[self.state])
-            ]
-            return
-
         self.frame_index = (
             self.frame_index + 10 * dt if self.direction != Direction.NONE else 1
         )
@@ -73,9 +66,16 @@ class Player(pygame.sprite.Sprite):
             int(self.frame_index) % len(self.frames[self.state])
         ]
 
-    def update(self, dt: float) -> None:
-        keys = pygame.key.get_pressed()
+    def ded_animate(self, dt):
+        if self.state == "ded":
+            self.frame_index = self.frame_index + 5 * dt
+            self.image = self.frames[self.state][
+                int(self.frame_index) % len(self.frames[self.state])
+            ]
 
+    def input(self):
+        keys = pygame.key.get_pressed()
+        
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.direction = Direction.RIGHT
         elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -85,10 +85,29 @@ class Player(pygame.sprite.Sprite):
         elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.direction = Direction.DOWN
 
+
+    def mouvement(self, dt, window_width: int, window_height: int):
+        
         dx, dy = self.direction.value
         self.rect.centerx += dx * self.speed * dt
         self.rect.centery += dy * self.speed * dt
-        self.animate(dt)
+
+        if self.rect.right >= window_width:
+            self.rect.right = window_width
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.bottom >= window_height:
+            self.rect.bottom = window_height
+        if self.rect.top < 0:
+            self.rect.top = 0
+
+    def update(self, dt: float, ded: bool, window_width: int, window_height: int) -> None:
+        self.input()
+        if not ded:
+            self.mouvement(dt, window_width, window_height)
+            self.animate(dt)
+        else:
+            self.ded_animate(dt)
 
 
 class PacGum(pygame.sprite.Sprite):
@@ -97,3 +116,10 @@ class PacGum(pygame.sprite.Sprite):
 
         self.image = surf
         self.rect = self.image.get_frect(center=(randint(80, 1200), randint(20, 700)))
+
+
+class Ghost(pygame.sprite.Sprite):
+    def __init__(self, groups):
+        super().__init__(groups)
+
+        
