@@ -1,8 +1,9 @@
-import display
+from display import Display
 
 
 def main():
-    display.test()
+    game_display = Display()
+    game_display.start()
 
 
 

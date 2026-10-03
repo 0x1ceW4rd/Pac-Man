@@ -1,5 +1,5 @@
 install:
-	pip install mazegenerator-00001/mazegenerator-2.1.0-py3-none-any.whl pygame flake8 mypy
+	pip install mazegenerator-00001/mazegenerator-2.1.0-py3-none-any.whl pygame-ce flake8 mypy
 
 run:
 	python3 src/main.py
