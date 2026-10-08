@@ -1,9 +1,10 @@
-import display
+from display import Display
 
 
 def main():
-    # display.test()
-    display.new_test()
+    game_display = Display()
+    # game_display.start()
+    game_display.new_test()
 
 
 

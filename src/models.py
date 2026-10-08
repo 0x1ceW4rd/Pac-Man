@@ -75,7 +75,7 @@ class Player(pygame.sprite.Sprite):
 
     def input(self):
         keys = pygame.key.get_pressed()
-        
+
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.direction = Direction.RIGHT
         elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -85,9 +85,8 @@ class Player(pygame.sprite.Sprite):
         elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.direction = Direction.DOWN
 
-
     def mouvement(self, dt, window_width: int, window_height: int):
-        
+
         dx, dy = self.direction.value
         self.rect.centerx += dx * self.speed * dt
         self.rect.centery += dy * self.speed * dt
@@ -101,7 +100,9 @@ class Player(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.rect.top = 0
 
-    def update(self, dt: float, ded: bool, window_width: int, window_height: int) -> None:
+    def update(
+        self, dt: float, ded: bool, window_width: int, window_height: int
+    ) -> None:
         self.input()
         if not ded:
             self.mouvement(dt, window_width, window_height)
@@ -121,5 +122,3 @@ class PacGum(pygame.sprite.Sprite):
 class Ghost(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-
-        
