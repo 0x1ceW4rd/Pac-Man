@@ -1,8 +1,44 @@
 from mazegenerator import MazeGenerator
 import pygame, sys
+from mlx import Mlx
 from os.path import join
 from models import Player, PacGum, Direction
 from os import system
+
+
+import os
+import mlx
+
+def handle_keypress(keycode, param):
+    # ESC key code (Linux/Mac)
+    if keycode in (53, 65307):
+        print("Exiting application...")
+        os._exit(0)  # Use os._exit to bypass the ctypes callback exception
+    return 0
+
+def new_test():
+    # 1. Initialize MLX connection directly from the module namespace
+    mlx_ptr = Mlx().mlx_init()
+    if not mlx_ptr:
+        print("Failed to initialize MLX display backend.")
+        return
+    
+    # 2. Create the window (Passing mlx_ptr as the first argument)
+    win_ptr = Mlx().mlx_new_window(mlx_ptr, 800, 600, "42 Python Window")
+    if not win_ptr:
+        print("Failed to create MLX window.")
+        return
+    
+    # 3. Setup window event hooks using the module functions
+    Mlx().mlx_key_hook(win_ptr, handle_keypress, None)
+    image = Mlx().mlx_png_file_to_image(mlx_ptr, "/home/aezzirar/Documents/Pac-Man/assets/paku-paku-states/right/1.png")
+    img_ptr = Mlx().mlx_new_image(mlx_ptr, 100, 100)
+    Mlx().mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 100,100)
+    
+    # 4. Start the graphic execution loop
+    Mlx().mlx_loop(mlx_ptr)
+
+
 
 
 def test():
