@@ -1,5 +1,5 @@
 from mazegenerator import MazeGenerator
-from src.core.maze import Maze
+from maze import Maze
 class Maze_Adapter():
     
 
@@ -12,8 +12,9 @@ class Maze_Adapter():
                 perfect=False,
                 seed=self.seed
                 )
-    def maze(self):
-        maze = Maze(self.width, self.height, self.generator.maze)
-        return maze
+        self.entry = self.generator.maze_entry
+        self.exit = self.generator.maze_exit
+        self.maze = Maze(self.width, self.height, self.generator.maze)
+ 
     
     
